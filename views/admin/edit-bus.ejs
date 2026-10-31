@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bus</title>
+</head>
+<body>
+    <h1>EDIT BUS </h1>
+    <form action="/admin/buses/edit/<%= bus._id %>" method="POST">
+        busId:
+      <input value="<%= bus.busId  %>" name="busId">
+      <br>
+      route:
+      <input value="<%= bus.route %>" name="route" ><br>
+      timing:
+      <input value="<%= bus.timing %>" name="timing"><br>
+      currentStop:
+      <input value="<%= bus.currentStop %>" name="currentStop"  ><br>
+    nextStop
+      <input value="<%= bus.nextStop %>" name="nextStop"  ><br>
+      Available Seats
+      <input value="<%= bus.availableSeats %>" name="availableSeats"  ><br>
+    totalseats
+      <input value="<%= bus.totalSeats %>" name="totalSeats"  ><br>
+     status
+      <input value="<%= bus.status %>" name="status"  ><br>
+      <button type="submit">Update</button>
+      </form>
+</body>
+</html>

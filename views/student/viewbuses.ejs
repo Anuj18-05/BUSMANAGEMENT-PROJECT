@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buses</title>
+</head>
+<body>
+    <%
+buses.forEach((bus)=>{%>
+    <div>
+     <p>BUS ID : <%= bus.busId %></p>
+     <p> ROUTE:<%= bus.route  %> </p>
+     <p> TIMING:<%= bus.timing  %> </p>
+     <p> CURRENT STOP:<%= bus.currentStop  %> </p>
+     <p> NEXT STOP:<%= bus.nextStop  %> </p>
+     <p> AVAIALABLE:<%= bus.availableSeats %> </p>
+     <p> TOTAL SEATS:<%= bus.totalSeats  %> </p>
+     <p> STATUS:<%= bus.status  %> </p>
+     <form action="/Bookings" method="POST">
+        <input type="hidden" name="studentId"  value="<%= studentId %>">
+        <input type="hidden" name="busId" value="<%= bus.busId %>">
+        <button type="submit" >Book Seat</button></form>
+       
+     <hr>
+     <br>
+    </div>
+    
+     <%
+    });
+%>
+<button onclick="showbooking('<%= studentId %>')"> View Bookings</button>
+<script>
+    function showbooking(studentId){
+       
+        window.location.href=`/bookingList?studentId=${studentId}`;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bus</title>
+</head>
+<body>
+    <h1>Manage Bus</h1>
+<%
+buses.forEach((bus)=>{%>
+    <div>
+     <p>BUS ID : <%= bus.busId %></p>
+     <p> ROUTE:<%= bus.route  %> </p>
+     <p> TIMING:<%= bus.timing  %> </p>
+     <p> CURRENT STOP:<%= bus.currentStop  %> </p>
+     <p> NEXT STOP:<%= bus.nextStop  %> </p>
+     <p> AVAIALABLE:<%= bus.availableSeats %> </p>
+     <p> TOTAL SEATS:<%= bus.totalSeats  %> </p>
+     <p> STATUS:<%= bus.status  %> </p>
+     <form action="/admin/buses/delete/<%= bus._id %>" method="POST">
+        <button type="submit" >cancel</button>
+     </form>
+     <form action="/admin/buses/edit/<%= bus._id %>" method="GET">
+        <button type="submit" >Edit</button>
+     </form>
+     <hr>
+     <br>
+    </div>
+    
+     <%
+    });
+%>
+ <h2>Add New Bus</h2>
+ <a href="/admin/buses/add">Add New Buses</a>
+
+</body>
+</html>

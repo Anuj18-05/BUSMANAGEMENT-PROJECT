@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="students/" method="post">
+        studentId
+        <input type="text" id="studentId" name="studentId" ><br>
+        name
+        <input type="text" name="name" id=""><br>
+        feepaid
+        <input type="checkbox" name="feePaid" value="true">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Click here to view your bookings</h2>
+    <button onclick="showbooking()">My bookings</button>
+    <script>
+        function showbooking(){
+            const studentId =document.getElementById("studentId").value;
+            window.location.href=`/bookingList?studentId=${studentId}`;
+        }
+    </script>
+</body>
+</html>
