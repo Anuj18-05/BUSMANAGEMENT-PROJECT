@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="students/" method="post">
+    <form action="/students/" method="post">
         studentId
         <input type="text" id="studentId" name="studentId" ><br>
         name
@@ -22,7 +22,7 @@
     <script>
         function showbooking(){
             const studentId =document.getElementById("studentId").value;
-            window.location.href=`/bookingList?studentId=${studentId}`;
+            window.location.href= `/bookings/list?studentId=${studentId}`;
         }
     </script>
 </body>

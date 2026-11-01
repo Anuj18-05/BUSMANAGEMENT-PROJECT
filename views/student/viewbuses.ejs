@@ -18,7 +18,7 @@ buses.forEach((bus)=>{%>
      <p> AVAIALABLE:<%= bus.availableSeats %> </p>
      <p> TOTAL SEATS:<%= bus.totalSeats  %> </p>
      <p> STATUS:<%= bus.status  %> </p>
-     <form action="/Bookings" method="POST">
+     <form action="/bookings" method="POST">
         <input type="hidden" name="studentId"  value="<%= studentId %>">
         <input type="hidden" name="busId" value="<%= bus.busId %>">
         <button type="submit" >Book Seat</button></form>
@@ -31,10 +31,10 @@ buses.forEach((bus)=>{%>
     });
 %>
 <button onclick="showbooking('<%= studentId %>')"> View Bookings</button>
-<script>
+<script> 
     function showbooking(studentId){
        
-        window.location.href=`/bookingList?studentId=${studentId}`;
+        window.location.href=`/bookings/list?studentId=${studentId}`;
     }
 </script>
 </body>
