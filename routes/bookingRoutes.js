@@ -18,7 +18,6 @@ router.post("/",async(req,res)=>{
   });
 
 if(bus===null){ return res.send("Bus not Found")};
-if(bus.availableSeats==0){ return res.send("sorry no seat Available i n your desired Bus plz Cheak something else")}
  const existingBooking= await Booking.findOne({student:student._id, Bus:bus._id})
  if(existingBooking){
  return res.send("Already Booked");
@@ -27,7 +26,7 @@ if(bus.availableSeats==0){ return res.send("sorry no seat Available i n your des
   return res.send("Seats not avaialable");
  }
  if(bus.status=="Inactive"){
-  res.send("this bus isn't active yet");
+  return res.send("this bus isn't active yet");
  }
  const now =new Date();
 const booking = await Booking.create({ bookingId: "Bk"+Date.now() ,student:student._id,Bus:bus._id ,date:now.toLocaleDateString(),time:now.toLocaleTimeString() });
