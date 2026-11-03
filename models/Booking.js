@@ -13,6 +13,10 @@ type:mongoose.Schema.Types.ObjectId,
 ref:"Bus"
 },
 date: String,
-time: String
+time: String,
+status:{
+type:String,
+default:"booked"
+}
 });
 module.exports=mongoose.model("Booking",BookingSchema);

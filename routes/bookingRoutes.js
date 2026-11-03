@@ -3,11 +3,12 @@ const router = express.Router();
 const Bus =require("../models/Bus");
 const Booking =require("../models/Booking");
 const Student =require("../models/Student");
-router.post("/",async(req,res)=>{
+const studentAuthMiddleware = require("../Middleware/studentAuthMiddleware");
+router.post("/",studentAuthMiddleware,async(req,res)=>{
   try{ 
   const student = await Student.findOne({
-    studentId:req.body.studentId
-  });
+   _id: req.user.studentId
+   } );
   if(student===null){
     return res.send("Student Not found")};
     if(!student.feePaid){
@@ -18,7 +19,8 @@ router.post("/",async(req,res)=>{
   });
 
 if(bus===null){ return res.send("Bus not Found")};
- const existingBooking= await Booking.findOne({student:student._id, Bus:bus._id})
+ const existingBooking= await Booking.findOne(
+  {student:student._id, Bus:bus._id, status:{$ne:"cancelled"}})
  if(existingBooking){
  return res.send("Already Booked");
  }
@@ -34,7 +36,7 @@ const booking = await Booking.create({ bookingId: "Bk"+Date.now() ,student:stude
  await Bus.findByIdAndUpdate(
   booking.Bus,
   {
-    availableSeats : bus.availableSeats-1
+    $inc: { availableSeats: -1 }
   }
  );
  res.render("student/booking-success",{
@@ -42,7 +44,8 @@ const booking = await Booking.create({ bookingId: "Bk"+Date.now() ,student:stude
   BusId:bus.busId,
   route:bus.route,
   Date:booking.date,
-  Time:booking.time
+  Time:booking.time,
+  status:booking.status
  })
 }
    catch(err){
@@ -50,12 +53,12 @@ const booking = await Booking.create({ bookingId: "Bk"+Date.now() ,student:stude
     res.status(500).send("eroror Creating student")
    }
 });
-router.get("/list",async(req,res)=>{
+router.get("/list",studentAuthMiddleware,async(req,res)=>{
  
  try{
-  const studentId =req.query.studentId;
+ 
  const student = await Student.findOne({
-  studentId:studentId
+  _id:req.user.studentId
 });
 if(!student){
   return res.send("student not found");
@@ -68,7 +71,7 @@ const bookings =await Booking.find({
 res.render("student/bookingList.ejs",{
   
   bookings:bookings,
-  studentId
+  studentId:req.user.studentId
   
 });
 }
@@ -77,23 +80,26 @@ catch(err){
   res.status(500).send("Error fetching bookings");
 }
 });
-router.post("/cancel/:id", async (req, res) => {
+router.post("/cancel/:id",studentAuthMiddleware, async (req, res) => {
   const bookingId = req.params.id;
-  const studentId = req.query.studentId;
+  const studentId = req.user.studentId;
 
   try {
     
-    const booking = await Booking.findById(bookingId);
+    const booking = await Booking.findOne({ _id: bookingId, student:studentId });
     
     
     if (!booking) {
       console.log(`Booking ${bookingId} not found. Redirecting safely...`);
-      return res.redirect(`/bookings/list?studentId=${studentId}`);
+      return res.redirect("/bookings/list");
     }
 
     
     if (booking.Bus) {
-      
+      if(booking.status === "cancelled"){
+        console.log(`Booking ${bookingId} is already cancelled. No action taken.`);
+        return res.redirect("/bookings/list");
+      }
       await Bus.findByIdAndUpdate(booking.Bus, {
         $inc: { availableSeats: 1 }
       });
@@ -101,11 +107,12 @@ router.post("/cancel/:id", async (req, res) => {
       console.log(`Warning: Booking found but no associated Bus ID was attached.`);
     }
 
-    
-    await Booking.findByIdAndDelete(bookingId);
+    booking.status = "cancelled";
+    await booking.save();
+  
  
     
-    return res.redirect(`/bookings/list?studentId=${studentId}`);
+    return res.redirect("/bookings/list");
  
   } catch (error) {
     
