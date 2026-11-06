@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+     <div> Profile Image : <img src="<%= studentdata.profileImage %>" alt="Profile Image" width="100" height="100"></div> <br>
+    <div> Name : <%= studentdata.name %> </div>
+    <div> StudentId : <%= studentdata.studentId %> </div>
+    <div> FeeStatus : <%= studentdata.feePaid ? "Paid" : "Not Paid" %> </div>
+    <div> email : <%= studentdata.email %> </div>
+    <div> Phone Number : <%= studentdata.phoneNumber %> </div>
+   
+    <div> Password : ******** </div>
+    edit your profile <a href="/students/editprofile">click here</a>
+    <button><a href="/students/dashboard">Back to Dashboard</a></button>
+
+
+</body>
+</html>

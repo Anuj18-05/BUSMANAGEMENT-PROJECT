@@ -3,17 +3,22 @@ const adminSchema= new mongoose.Schema({
     name:{
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        minlength:2
+
     },
-    email:{
+     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "Email is required"],
+        unique: true,
+        trim: true,
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"]
     },
-    password:{
+    password: {
         type: String,
-        required: true,
-        minlength: 6
+        required: [true, "Password is required"],
+        minlength: [6, "Password must be at least 6 characters"]
     }
 });
 module.exports=mongoose.model("Admin",adminSchema);

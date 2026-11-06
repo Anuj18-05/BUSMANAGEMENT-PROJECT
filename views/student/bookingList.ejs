@@ -20,7 +20,7 @@
                  <p> Arriving at : <%= booking.Bus.timing %></p>
                  <p> Status : <%= booking.Bus.status %></p>
                  <p> Booking Status : <%= booking.status %></p>
-                 <p> Available Seats : <%= booking.Bus.availableSeats %></p>
+                 <p> Seat Number : <%= booking.SeatNumber %></p>
                  <form action="/bookings/cancel/<%= booking._id %>?studentId=<%= studentId %>" method="POST">
                      <button type="submit">cancel</button>
                   </form>
